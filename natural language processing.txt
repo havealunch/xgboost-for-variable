@@ -99,9 +99,9 @@ classify_sentiment <- function(text, pos_words, neg_words) {
 
 # Apply sentiment analysis
 weibo_data_filtered$sentiment <- sapply(weibo_data_filtered$content_clean, 
-                                        classify_sentiment, 
-                                        pos_words = positive_words, 
-                                        neg_words = negative_words)
+                                         classify_sentiment, 
+                                         pos_words = positive_words, 
+                                         neg_words = negative_words)
 
 # Calculate sentiment distribution by city
 city_sentiment <- weibo_data_filtered %>%
@@ -278,15 +278,15 @@ infrastructure_indices <- which(topic_labels == "infrastructure")
 city_categories <- city_topics %>%
   mutate(
     education_ratio = rowMeans(select(., starts_with("mean_Topic") & 
-                                        any_of(paste0("mean_Topic", education_indices))), na.rm = TRUE),
+                                       any_of(paste0("mean_Topic", education_indices))), na.rm = TRUE),
     work_ratio = rowMeans(select(., starts_with("mean_Topic") & 
-                                   any_of(paste0("mean_Topic", work_indices))), na.rm = TRUE),
+                                 any_of(paste0("mean_Topic", work_indices))), na.rm = TRUE),
     transportation_ratio = rowMeans(select(., starts_with("mean_Topic") & 
-                                             any_of(paste0("mean_Topic", transportation_indices))), na.rm = TRUE),
+                                           any_of(paste0("mean_Topic", transportation_indices))), na.rm = TRUE),
     assistance_ratio = rowMeans(select(., starts_with("mean_Topic") & 
-                                         any_of(paste0("mean_Topic", assistance_indices))), na.rm = TRUE),
+                                       any_of(paste0("mean_Topic", assistance_indices))), na.rm = TRUE),
     infrastructure_ratio = rowMeans(select(., starts_with("mean_Topic") & 
-                                             any_of(paste0("mean_Topic", infrastructure_indices))), na.rm = TRUE)
+                                           any_of(paste0("mean_Topic", infrastructure_indices))), na.rm = TRUE)
   )
 
 # Merge sentiment and topic data
@@ -302,11 +302,11 @@ city_index <- city_index %>%
   mutate(
     education_work_disruption = (education_ratio + work_ratio) / 2,
     other_topics_ratio = rowMeans(select(., starts_with("mean_Topic")), na.rm = TRUE) - 
-      education_ratio - work_ratio - transportation_ratio - 
-      assistance_ratio - infrastructure_ratio,
+                         education_ratio - work_ratio - transportation_ratio - 
+                         assistance_ratio - infrastructure_ratio,
     interruption_index = alpha * negative_ratio + 
-      beta * education_work_disruption + 
-      gamma * other_topics_ratio
+                         beta * education_work_disruption + 
+                         gamma * other_topics_ratio
   )
 
 print(city_index)
